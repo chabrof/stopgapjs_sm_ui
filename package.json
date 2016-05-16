@@ -1,0 +1,19 @@
+{
+  "name": "stopgapjs_sm_ui",
+  "description": "Effective and simple State Machine UI",
+  "version": "0.0.3",
+  "license": "MIT",
+  "author": {
+    "name": "François Chabrou",
+    "email": "developer@stopgapjs.org",
+    "url": "http://www.stopgapjs.org"
+  },
+  "main": "./index.html",
+  "homepage": "http://www.stopgapjs.org/#observable",
+  "dependencies": {
+    "requirejs": ">=2.1.14",
+		"mustache": ">=2.2.1",
+		"stopgapjs_curve": "file:../stopgapjs_curve"
+  },
+  "readme": "#stopgapjs"
+}

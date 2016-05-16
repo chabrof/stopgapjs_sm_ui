@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es5",
+        "noImplicitAny": false,
+				"rootDir": "ts",
+				"outDir": "js",
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+	  "compileOnSave": true
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="./node_modules/requirejs/require.js"></script>
+  </head>
+  <body>
+		<style>
+			.blinky { animation: blink 1s steps(10, start) infinite; }
+			@keyframes blink {
+				0% { opacity: 1.0; }
+				50% {	opacity: 0.0; }
+				100%{ opacity: 1.0; }
+			}
+		</style>
+
+		<script type="text/svg" id="state">
+<g id={id} style="transform: translate(20px, 20px);">
+	<rect width="150" height="100" style="stroke-width:2px;fill:none;stroke:grey;"></rect>
+	<circle id="anchor_1" class="blinky" cx="0px"		cy="50px"	 	r="5px" style="fill:#ff8800;stroke:#ff9900;stroke-width:2px" />
+	<circle id="anchor_2" class="blinky" cx="75px" 	cy="0px" 		r="5px" style="fill:#ff8800;stroke:#ff9900;stroke-width:2px" />
+	<circle id="anchor_3" class="blinky" cx="150px" cy="50px" 	r="5px" style="fill:#ff8800;stroke:#ff9900;stroke-width:2px" />
+	<circle id="anchor_4" class="blinky" cx="75px" 	cy="100px" 	r="5px" style="fill:#ff8800;stroke:#ff9900;stroke-width:2px" />
+</g>
+		</script>
+
+		<script type="text/svg" id="gravit_gradient">
+<defs>
+  <radialGradient id="sgj_grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+    <stop offset="0%" style="stop-color:rgb(0,0,0);stop-opacity:0.5" />
+    <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:0.5" />
+  </radialGradient>
+</defs>
+		</script>
+
+		<script type="text/svg" id="gravit_dot">
+<circle cx="{{x}}px" cy="{{y}}px" r="{{gravit_radius}}px" fill="url(#sgj_grad1)" />
+		</script>
+
+		<script type="text/svg" id="state_link">
+<g id="{{id}}">
+	<!-- curve and "handy" curve -->
+	<path id="sgj_sm_handy_curve" opacity="0.0" d="M {{dot1.x}},{{dot1.y}} Q {{ctrlDot.x}},{{ctrlDot.y}} {{dot2.x}},{{dot2.y}}" fill="none" stroke="black" stroke-width="20px" />
+	<path id="sgj_sm_curve" d="M {{dot1.x}},{{dot1.y}} Q {{ctrlDot.x}},{{ctrlDot.y}} {{dot2.x}},{{dot2.y}}" fill="none" stroke="orange" stroke-width="2px" />
+
+	<!-- curve limit dots -->
+	<circle id="sgj_sm_left_dot" cx="{{dot1.x}}px" cy="{{dot1.y}}px" r="5px" fill="white" stroke="#ff9900" stroke-width="1px" />
+	<circle id="sgj_sm_right_dot" cx="{{dot2.x}}px" cy="{{dot2.y}}px" r="5px" fill="white" stroke="#ff9900" stroke-width="1px" />
+
+	<circle opacity="0.0" id="sgj_sm_handy_left_dot" cx="{{dot1.x}}px" cy="{{dot1.y}}px" r="15px" fill="white" stroke="#444444" stroke-width="2px" />
+	<circle opacity="0.0" id="sgj_sm_handy_right_dot" cx="{{dot2.x}}px" cy="{{dot2.y}}px" r="15px" fill="white" stroke="#444444" stroke-width="2px" />
+
+	<!-- ctrl point -->
+	<circle opacity="0.0" id="sgj_sm_ctrl_dot" cx="{{ctrlDot.x}}px" cy="{{ctrlDot.y}}px" r="5px" fill="#ffcc00" stroke="#ff9900" stroke-width="2px" />
+	<line opacity="0.0" id="sgj_sm_left_line" x1="{{dot1.x}}px" y1="{{dot1.y}}px" x2="{{ctrlDot.x}}px" y2="{{ctrlDot.y}}px" stroke-dasharray="10,10" stroke="red" stroke-width="2px"/>
+	<line opacity="0.0" id="sgj_sm_right_line" x1="{{dot2.x}}px" y1="{{dot2.y}}px" x2="{{ctrlDot.x}}px" y2="{{ctrlDot.y}}px" stroke-dasharray="10,10" stroke="red" stroke-width="2px"/>
+</g>
+		</script>
+
+    <svg style="-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;
+	    user-select: none;z-index:2;position:absolute;top:10px;left:50px;border:solid 1px black;"
+			version="1.1"
+			id="svg"
+			width="1200px" height="500px">
+
+				<!--<image xlink:href="./img/add.svg" x="10" y="450"  height="36" width="36" onclick="addState()"></image>-->
+    </svg>
+
+    <script>
+			requirejs.config(
+				{
+					baseUrl: 'js',
+					paths: {
+							mustache: '../node_modules/mustache/mustache',
+							innerSvg: '../other_modules/inner_svg' }})
+			requirejs(['mustache', 'innerSvg', 'svg', 'link_registration', 'gravitaty_map'],
+				function(Mustache, innerSvg, svgMarkup, linkMarkup, gravitMapMarkup) {
+					svgMarkup.register(Mustache)
+					gravitMapMarkup.register(Mustache)
+					linkMarkup.register(Mustache)
+	  		} );
+    </script>
+
+		<sgj-svg svg_id="svg">
+			<sgj-gravit-map dots="250,250 300,22">
+				<sgj-sm-link id="testLink" dot1_x="150" dot1_y="150" dot2_x="350" dot2_y="250" ctrl_dot_x="200" ctrl_dot_y="100"></sgj-sm-link>
+			</sgj-gravit-map>
+		</sgj-svg>
+	</body>
+</html>
