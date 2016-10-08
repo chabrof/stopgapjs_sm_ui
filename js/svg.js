@@ -30,7 +30,7 @@ define(["require", "exports"], function (require, exports) {
             custElt.refreshInnerSvg();
         });
     };
-    EltPrototype.attributeChangedCallback = function (attrName /*, oldVal, newVal*/) {
+    EltPrototype.attributeChangedCallback = function (attrName) {
         console.error('attrib', attrName);
     };
     function register(mustache) {
